@@ -11,3 +11,4 @@ global.paths = {
 gulpDir(__dirname + '/gulp');
 
 gulp.task('default', ['clean', 'build', 'watch', 'sync']);
+gulp.task('prod', ['clean', 'build:prod']);

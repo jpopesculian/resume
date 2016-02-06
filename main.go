@@ -13,7 +13,7 @@ var file_dir string
 var port uint64
 
 func main() {
-	default_dir := "src/github.com/jpopesculian/resume/dist"
+	default_dir := "dist"
 	default_port, err := strconv.ParseUint(os.Getenv("PORT"), 0, 16)
 	if err != nil {
 		default_port = 5000

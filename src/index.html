@@ -7,6 +7,35 @@
     <script src="jspm_packages/system.js"></script>
     <script src="config.js"></script>
     <script>
+      (function(window) {
+        var translate = window.System.translate;
+        var TOTAL_SIZE = 473242;
+        var TOTAL_FILES = 92;
+        var sizeDownloaded = 0;
+        var filesDownloaded = 0;
+
+        function calcPercent(part, whole) {
+          return Math.round(100.0 * part / whole);
+        }
+
+        window.System.translate = function() {
+          var args = arguments;
+
+          window.setTimeout(function() {
+            var size = args[0].source.length;
+            sizeDownloaded += size;
+            filesDownloaded += 1;
+            // console.log(sizeDownloaded, filesDownloaded);
+
+            percentageBytes = calcPercent(sizeDownloaded, TOTAL_SIZE);
+            percentageRequests = calcPercent(filesDownloaded, TOTAL_FILES);
+            percentage = Math.round((percentageRequests + percentageBytes) / 2);
+            console.log("Percent Downloaded: " + percentage.toString() + "%");
+          }, 0)
+
+          return translate.apply(window.System, args);
+        }
+      }(window))
       System.import('app/index');
     </script>
   </body>

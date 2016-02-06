@@ -1,6 +1,7 @@
 const gulp = require('gulp');
 const browserSync = require('browser-sync');
 const plumber = require('gulp-plumber');
+const minify = require('gulp-minify-inline');
 
 const src = global.paths.src + '/**/*.html';
 const dest = global.paths.dest;
@@ -12,8 +13,15 @@ const builder = () => {
     .pipe(browserSync.stream());
 }
 
+const prodBuilder = () => {
+  return gulp.src(src, {base: global.paths.src})
+    .pipe(minify())
+    .pipe(gulp.dest(dest))
+}
+
 gulp.task('build:html', ['clean'], builder);
 gulp.task('build:html:watch', builder);
+gulp.task('build:html:prod', ['clean'], prodBuilder);
 
 gulp.task('watch:html', () => {
   return gulp.watch(src, ['build:html:watch']);
@@ -21,5 +29,6 @@ gulp.task('watch:html', () => {
 
 module.exports = {
   build: 'build:html',
-  watch: 'watch:html'
+  watch: 'watch:html',
+  "build:prod": 'build:html:prod'
 }
