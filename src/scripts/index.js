@@ -3,23 +3,17 @@ import {makeDOMDriver, hJSX} from '@cycle/dom'
 
 function main(sources) {
 
-
-  const click$ = sources.DOM.select('input').events('click')
+  const DOM = sources.DOM.select('input').events('click')
     .map((e) => e.target.checked)
     .startWith(false)
-
-
-  const DOM = click$
-      .map((toggled) =>
+    .map((toggled) =>
          <div>
           <input type="checkbox"/> Toggle Me
           <p>{toggled ? 'ON' : 'off'}</p>
          </div>
-      )
+        )
 
-  return {
-    DOM
-  }
+  return {DOM}
 }
 
 const bootstrap = (selector) => {

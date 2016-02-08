@@ -14,6 +14,37 @@ window._onLoad = (function(window, document) {
 
   var pathsLoaded = 0;
   var doneLoading = false;
+  var fontsLoaded = false;
+
+  var endTransition = function() {
+    for (var i = 0; i < PATH_NUM; i++) {
+      var setLoaded = (function(path) {
+        return function() { 
+          if (path) {
+            var classes = path.getAttribute("class").split(' ');
+            var j = classes.length;
+            while(j--) {
+              var className = classes[j];
+              if 
+              (
+                className === "will-load" 
+                || className === "loading" 
+                || className === "null"
+              ) 
+              {
+                classes.splice(j, 1);
+              }
+            }
+            path.style.transition = "all 0.5s linear";
+            path.style.strokeDasharray = 0;
+            path.style.strokeDashoffset = 0;
+            path.setAttribute("class", classes.join(" ")); 
+          }
+        };
+      }(paths[i]));
+      window.setTimeout(setLoaded, Math.random() * 1000);
+    }
+  };
 
   return {
     percent: function(percent) {
@@ -33,34 +64,14 @@ window._onLoad = (function(window, document) {
       }
     },
 
+    fonts: function() {
+      fontsLoaded = true;
+      if (doneLoading) return endTransition();
+    },
+
     all: function() {
       doneLoading = true;
-      for (var i = 0; i < PATH_NUM; i++) {
-        var setLoaded = (function(path) {
-          return function() { 
-            if (path) {
-              var classes = path.getAttribute("class").split(' ');
-              var j = classes.length;
-              while(j--) {
-                var className = classes[j];
-                if 
-                (
-                  className === "will-load" 
-                  || className === "loading" 
-                  || className === "null"
-                ) 
-                {
-                  classes.splice(j, 1);
-                }
-              }
-              path.style.strokeDasharray = 0;
-              path.style.strokeDashoffset = 0;
-              path.setAttribute("class", classes.join(" ")); 
-            }
-          };
-        }(paths[i]));
-        window.setTimeout(setLoaded, Math.random() * 1000);
-      }
+      if (fontsLoaded) return endTransition();
     }
   }
 }(window, document));
@@ -89,7 +100,19 @@ window._onLoad = (function(window, document) {
 
     return translate.apply(window.System, args);
   }
-}(window))
+}(window));
+
+(function (window) {
+  if (!window.WebFont) return;
+  window.WebFontConfig = {
+    active: window._onLoad.fonts()
+  };
+  window.WebFont.load({
+    google: {
+      families: ['Roboto']
+    }
+  });
+}(window));
 
 System.import('app/index').then(function(module) {
   window._onLoad.all();
