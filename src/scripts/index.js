@@ -3,20 +3,29 @@ import {makeDOMDriver, hJSX} from '@cycle/dom'
 
 function main(sources) {
 
-  const DOM = sources.DOM.select('input').events('click')
+
+  const click$ = sources.DOM.select('input').events('click')
     .map((e) => e.target.checked)
     .startWith(false)
-    .map((toggled) =>
+
+
+  const DOM = click$
+      .map((toggled) =>
          <div>
           <input type="checkbox"/> Toggle Me
           <p>{toggled ? 'ON' : 'off'}</p>
          </div>
-        )
+      )
 
-  return {DOM}
+  return {
+    DOM
+  }
 }
 
-Cycle.run(main, {
-  DOM: makeDOMDriver('#app')
-})
+const bootstrap = (selector) => {
+  Cycle.run(main, {
+    DOM: makeDOMDriver(selector)
+  })
+}
 
+export default bootstrap
