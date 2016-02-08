@@ -29,6 +29,7 @@
     "gulp-babel": "^6.1.1",
     "gulp-cssnano": "^2.1.0",
     "gulp-dir": "^1.0.0",
+    "gulp-inject-file": "0.0.16",
     "gulp-minify-inline": "^0.2.0",
     "gulp-plumber": "^1.0.1",
     "gulp-sass": "^2.1.1",
