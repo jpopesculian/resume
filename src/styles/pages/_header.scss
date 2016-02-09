@@ -1,0 +1,55 @@
+#header-page {
+  @extend %section;
+  position: relative;
+
+  .header-text {
+    padding: 10vh 0 0 10vh;
+    text-transform: uppercase;
+    
+    span {
+      display: block;
+    }
+  }
+
+  h1 {
+    font-size: 5.5em;
+    font-weight: 900;
+    letter-spacing: .4em;
+    line-height: 1.3em;
+  }
+
+  h2 {
+    padding-top: 1em;
+    font-size: 2em;
+    color: $GREY;
+    font-weight: 300;
+    letter-spacing: .4em;
+    line-height: 1.75em;
+  }
+  
+  %right-side-triangle {
+    padding-right: 15vw;
+    width: 0;
+    height: 0;
+    border-bottom: 100vh solid transparent;
+    border-left: 100vh solid transparent;
+    position: absolute;
+    z-index: 1000;
+    top: 0;
+  }
+
+  .triangle-block {
+    @extend %right-side-triangle;
+    right: 1px;
+    border-bottom-color: $GREY;
+
+    &::after {
+      @extend %right-side-triangle;
+      content: "";
+      border-bottom-color: $BG_COLOR;
+      right: -1px;
+    }
+  }
+}
+
+

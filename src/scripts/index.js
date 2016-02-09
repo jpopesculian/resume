@@ -1,19 +1,20 @@
 import Cycle from '@cycle/core'
 import {makeDOMDriver, hJSX} from '@cycle/dom'
+import HeaderPage from 'app/pages/header'
 
-function main(sources) {
+function main({DOM}) {
 
-  const DOM = sources.DOM.select('input').events('click')
-    .map((e) => e.target.checked)
-    .startWith(false)
-    .map((toggled) =>
-         <div>
-          <input type="checkbox"/> Toggle Me
-          <p>{toggled ? 'ON' : 'off'}</p>
-         </div>
-        )
+  const headerPage = HeaderPage({DOM})
+  const view = headerPage.DOM
+    .map((headerVTree) => {
+      return (
+        <div>
+          {headerVTree}
+        </div>
+      )
+    })
 
-  return {DOM}
+  return {DOM: view}
 }
 
 const bootstrap = (selector) => {

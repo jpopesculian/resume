@@ -103,7 +103,7 @@ window._onLoad = (function(window, document) {
 }(window));
 
 (function (window) {
-  if (!window.WebFont) return;
+  if (!window.WebFont) return window._onLoad.fonts();
   window.WebFontConfig = {
     active: window._onLoad.fonts()
   };
